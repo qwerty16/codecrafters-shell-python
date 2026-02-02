@@ -1,30 +1,33 @@
 import sys
 
 def main():
-    running = True
+    sys.stdout.write("$ ")
 
-    while running:
-        sys.stdout.write("$ ")
+    # Read
+    raw_input = input()
 
-        # Read
-        raw_input = input()
+    # Evaluate input
+    response = None
 
-        # Evaluate input
+    args = raw_input.split()
+    first_command = args[0]
 
-        # Check for early exit
-        if raw_input == "exit":
-            running = False
-            continue
+    match first_command:
+        case "exit":
+            # Check for early exit
+            return False
+        case "echo":
+            # Echo all other args
+            response = " ".join(args[1:])
+        case _:
+            response = f"{first_command}: command not found"
 
-        input_not_valid = True
-
-        # Print response
-        if input_not_valid:
-            sys.stdout.write(f"{raw_input}: command not found\n")
+    # Print response
+    print(response)
         
-        # Loop
-        running = True
-
+    return True
 
 if __name__ == "__main__":
-    main()
+    continue_running = True
+    while continue_running:
+        continue_running = main()
