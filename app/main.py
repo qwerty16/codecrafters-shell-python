@@ -1,15 +1,23 @@
 import sys
 
 def main():
-    sys.stdout.write("$ ")
+    running = True
 
-    raw_input = input()
+    while running:
+        sys.stdout.write("$ ")
 
-    input_not_valid = True
+        # Read
+        raw_input = input()
 
-    if input_not_valid:
-        sys.stdout.write(f"{raw_input}: command not found")
-    pass
+        # Evaluate input
+        input_not_valid = True
+
+        # Print response
+        if input_not_valid:
+            sys.stdout.write(f"{raw_input}: command not found\n")
+        
+        # Loop
+        running = True
 
 
 if __name__ == "__main__":
