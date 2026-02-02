@@ -10,6 +10,12 @@ def main():
         raw_input = input()
 
         # Evaluate input
+
+        # Check for early exit
+        if raw_input == "exit":
+            running = False
+            continue
+
         input_not_valid = True
 
         # Print response
