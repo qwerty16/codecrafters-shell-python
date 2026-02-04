@@ -1,5 +1,6 @@
 import sys
 import os
+import subprocess
 
 BUILTINS = ["exit", "echo", "type"]
 
@@ -35,6 +36,8 @@ def main():
     full_command_path = find_executable_path(first_command)
 
     match full_command_path:
+        case False:
+            response = f"{first_command}: command not found"
         case "exit":
             # Check for early exit
             return False
@@ -51,10 +54,13 @@ def main():
             else:
                 response = f"{second_command}: not found"
         case _:
-            response = f"{first_command}: command not found"
+            # If valid command and not a builtin
+            # run and pass all args along
+            subprocess.run(args=args, executable=full_command_path)
 
     # Print response
-    print(response)
+    if response is not None:
+        print(response)
 
     return True
 
