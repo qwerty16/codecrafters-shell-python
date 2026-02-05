@@ -14,8 +14,11 @@ def pwd(*args, **kwargs) -> Response:
     return os.getcwd()
 
 
-def chwdir(*args, **kwargs) -> Response:
+def change_working_directory(*args, **kwargs) -> Response:
     target = args[1]
+
+    target = os.path.expanduser(target)
+
     if not os.path.isdir(target):
         return f"cd: {target}: No such file or directory"
 
@@ -55,7 +58,7 @@ BUILTINS: dict[str, Response] = {
     "echo": echo,
     "type": type,
     "pwd": pwd,
-    "cd": chwdir,
+    "cd": change_working_directory,
 }
 
 
