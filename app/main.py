@@ -14,6 +14,14 @@ def pwd(*args, **kwargs) -> Response:
     return os.getcwd()
 
 
+def chwdir(*args, **kwargs) -> Response:
+    target = args[1]
+    if not os.path.isdir(target):
+        return f"cd: {target}: No such file or directory"
+
+    os.chdir(target)
+
+
 def echo(*args, **kwargs) -> Response:
     return " ".join(args[1:])
 
@@ -42,7 +50,13 @@ def find_executable_path(command: str):
     return False
 
 
-BUILTINS: dict[str, Response] = {"exit": exit, "echo": echo, "type": type, "pwd": pwd}
+BUILTINS: dict[str, Response] = {
+    "exit": exit,
+    "echo": echo,
+    "type": type,
+    "pwd": pwd,
+    "cd": chwdir,
+}
 
 
 def main():
