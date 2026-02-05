@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-BUILTINS = ["exit", "echo", "type"]
+BUILTINS = ["exit", "echo", "type", "pwd"]
 
 
 def find_executable_path(command: str):
@@ -53,6 +53,8 @@ def main():
                 response = f"{second_command} is {executable_found}"
             else:
                 response = f"{second_command}: not found"
+        case "pwd":
+            response = os.getcwd()
         case _:
             # If valid command and not a builtin
             # run and pass all args along
