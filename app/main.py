@@ -1,6 +1,7 @@
 import sys
 import os
 import subprocess
+import shlex
 from typing import TypeAlias, Union
 
 Response: TypeAlias = Union[str, False]
@@ -53,25 +54,20 @@ def find_executable_path(command: str):
     return False
 
 
-BUILTINS: dict[str, Response] = {
-    "exit": exit,
-    "echo": echo,
-    "type": type,
-    "pwd": pwd,
-    "cd": change_working_directory,
-}
-
-
-def main():
-    # Read
+def read() -> list[str]:
     sys.stdout.write("$ ")
     raw_input = input()
 
-    args = raw_input.split()
-    first_command = args[0]
+    # Argument parsing
+    parsed_input = shlex.split(s=raw_input)
 
+    return parsed_input
+
+
+def evaluate(args: list[str]) -> Response:
     # Evaluate input
     response = None
+    first_command = args[0]
     if first_command in BUILTINS:
         response = BUILTINS[first_command](*args)
 
@@ -83,6 +79,23 @@ def main():
 
     else:
         response = f"{first_command}: command not found"
+
+    return response
+
+
+BUILTINS: dict[str, Response] = {
+    "exit": exit,
+    "echo": echo,
+    "type": type,
+    "pwd": pwd,
+    "cd": change_working_directory,
+}
+
+
+def main():
+    args = read()
+
+    response = evaluate(args=args)
 
     # Print
     if response:
